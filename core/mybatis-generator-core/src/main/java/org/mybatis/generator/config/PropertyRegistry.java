@@ -71,4 +71,5 @@ public class PropertyRegistry {
     public static final String COMMENT_GENERATOR_AUTHOR = "author"; //$NON-NLS-1$
     public static final String SUPPRESS_TABLE_PREFIX = "suppressTablePrefix"; //$NON-NLS-1$
     public static final String TYPE_RESOLVER_BLOB_COLUMN = "typeResolverBlobColumn"; //$NON-NLS-1$
+    public static final String TABLE_GENERATE_BASE_RESULT_MAP = "generateBaseResultMap"; //$NON-NLS-1$
 }

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package org.mybatis.generator.codegen.mybatis3;
 
+import org.mybatis.generator.api.IntrospectedColumn;
+
 import static org.mybatis.generator.internal.util.StringUtility.escapeStringForJava;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-
-import org.mybatis.generator.api.IntrospectedColumn;
 
 /**
  * The Class MyBatis3FormattingUtilities.
@@ -61,8 +61,10 @@ public class MyBatis3FormattingUtilities {
 
         sb.append("#{"); //$NON-NLS-1$
         sb.append(introspectedColumn.getJavaProperty(prefix));
-        sb.append(",jdbcType="); //$NON-NLS-1$
-        sb.append(introspectedColumn.getJdbcTypeName());
+
+
+//        sb.append(",jdbcType="); //$NON-NLS-1$
+//        sb.append(introspectedColumn.getJdbcTypeName());
 
         if (stringHasValue(introspectedColumn.getTypeHandler())) {
             sb.append(",typeHandler="); //$NON-NLS-1$

@@ -16,4 +16,4 @@
 #
 
 
-java -jar target/mybatis-generator-core-1.3.6-SNAPSHOT.jar -configfile /Users/IFT8/Tools/mybatis-generator/core/mybatis-generator-core/generatorConfig.xml -overwrite
+java -jar target/mybatis-generator-core.jar -configfile /Users/IFT8/Tools/mybatis-generator/core/mybatis-generator-core/generatorConfig.xml -overwrite

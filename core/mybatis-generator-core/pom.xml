@@ -30,7 +30,7 @@
   <name>MyBatis Generator Core</name>
 
   <build>
-    <finalName>mybatis-generator</finalName>
+    <finalName>mybatis-generator-core</finalName>
 
     <plugins>
       <plugin>

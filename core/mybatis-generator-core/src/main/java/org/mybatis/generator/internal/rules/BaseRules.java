@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,6 +41,8 @@ public abstract class BaseRules implements Rules {
     /** The is model only. */
     protected final boolean isModelOnly;
 
+    private final boolean isGenerateBaseResultMap;
+
     /**
      * Instantiates a new base rules.
      *
@@ -53,6 +55,8 @@ public abstract class BaseRules implements Rules {
         this.tableConfiguration = introspectedTable.getTableConfiguration();
         String modelOnly = tableConfiguration.getProperty(PropertyRegistry.TABLE_MODEL_ONLY);
         isModelOnly = StringUtility.isTrue(modelOnly);
+        String generateBaseResultMap = introspectedTable.getContext().getProperty(PropertyRegistry.TABLE_GENERATE_BASE_RESULT_MAP);
+        isGenerateBaseResultMap = StringUtility.isTrue(generateBaseResultMap);
     }
 
     /**
@@ -223,14 +227,14 @@ public abstract class BaseRules implements Rules {
      * @return true if the result map should be generated
      */
     public boolean generateBaseResultMap() {
-        if (isModelOnly) {
+        if (isGenerateBaseResultMap && isModelOnly) {
             return true;
         }
-        
+
         boolean rc = tableConfiguration.isSelectByExampleStatementEnabled()
                 || tableConfiguration.isSelectByPrimaryKeyStatementEnabled();
 
-        return rc;
+        return isGenerateBaseResultMap && rc;
     }
 
     /**
