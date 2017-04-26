@@ -13,8 +13,11 @@ Code generator for MyBatis and iBATIS.
 
 It will generate code for all versions of MyBatis, and versions of iBATIS after version 2.2.0. It will introspect a database table (or many tables) and will generate artifacts that can be used to access the table(s). This lessens the initial nuisance of setting up objects and configuration files to interact with database tables. MBG seeks to make a major impact on the large percentage of database operations that are simple CRUD (Create, Retrieve, Update, Delete).
 
-1.添加作者
-2.添加表注释在属性
-3.设置BLOBColumn默认不处理
-4.表前缀忽略设置
-5.Example默认不要
+#变更
+1. 添加作者
+2. 添加表注释在属性
+3. 设置BLOBColumn默认不处理
+4. 表前缀忽略设置
+5. Example默认不要
+6. 配置 BaseResultMap 默认不生成
+7. 去除JdbcType
