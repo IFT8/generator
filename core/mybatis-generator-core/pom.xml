@@ -30,6 +30,8 @@
   <name>MyBatis Generator Core</name>
 
   <build>
+    <finalName>mybatis-generator</finalName>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
