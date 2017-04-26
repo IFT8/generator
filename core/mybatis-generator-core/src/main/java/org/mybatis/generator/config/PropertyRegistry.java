@@ -61,6 +61,7 @@ public class PropertyRegistry {
     public static final String DAO_METHOD_NAME_CALCULATOR = "methodNameCalculator"; //$NON-NLS-1$
 
     public static final String TYPE_RESOLVER_FORCE_BIG_DECIMALS = "forceBigDecimals"; //$NON-NLS-1$
+    public static final String TYPE_RESOLVER_FORCE_TINY2_INT = "forceTiny2Int"; //$NON-NLS-1$
 
     public static final String MODEL_GENERATOR_TRIM_STRINGS = "trimStrings"; //$NON-NLS-1$
 

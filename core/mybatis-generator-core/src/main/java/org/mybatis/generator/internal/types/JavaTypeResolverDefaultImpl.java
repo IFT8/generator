@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,6 +15,13 @@
  */
 package org.mybatis.generator.internal.types;
 
+import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.JavaTypeResolver;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.config.Context;
+import org.mybatis.generator.config.PropertyRegistry;
+import org.mybatis.generator.internal.util.StringUtility;
+
 import java.math.BigDecimal;
 import java.sql.Types;
 import java.util.Date;
@@ -23,15 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.mybatis.generator.api.IntrospectedColumn;
-import org.mybatis.generator.api.JavaTypeResolver;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.config.Context;
-import org.mybatis.generator.config.PropertyRegistry;
-import org.mybatis.generator.internal.util.StringUtility;
-
 /**
- * 
  * @author Jeff Butler
  */
 public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
@@ -45,7 +44,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
     protected boolean forceBigDecimals;
 
     protected Map<Integer, JdbcTypeInformation> typeMap;
-    
+
     public JavaTypeResolverDefaultImpl() {
         super();
         properties = new Properties();
@@ -114,12 +113,30 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
                 new FullyQualifiedJavaType(Date.class.getName())));
         typeMap.put(Types.TIMESTAMP, new JdbcTypeInformation("TIMESTAMP", //$NON-NLS-1$
                 new FullyQualifiedJavaType(Date.class.getName())));
+
         typeMap.put(Types.TINYINT, new JdbcTypeInformation("TINYINT", //$NON-NLS-1$
                 new FullyQualifiedJavaType(Byte.class.getName())));
+
         typeMap.put(Types.VARBINARY, new JdbcTypeInformation("VARBINARY", //$NON-NLS-1$
                 new FullyQualifiedJavaType("byte[]"))); //$NON-NLS-1$
         typeMap.put(Types.VARCHAR, new JdbcTypeInformation("VARCHAR", //$NON-NLS-1$
                 new FullyQualifiedJavaType(String.class.getName())));
+    }
+
+    /**
+     * TINYINT 强制int
+     */
+    private void forceTinyClass() {
+        String calculateTinyClassName;
+
+        String forceTiny2Int = context.getProperty(PropertyRegistry.TYPE_RESOLVER_FORCE_TINY2_INT);
+        if (StringUtility.isTrue(forceTiny2Int)) {
+            calculateTinyClassName = Integer.class.getName();
+        } else {
+            calculateTinyClassName = Byte.class.getName();
+        }
+        typeMap.put(Types.TINYINT, new JdbcTypeInformation("TINYINT", //$NON-NLS-1$
+                new FullyQualifiedJavaType(calculateTinyClassName)));
     }
 
     public void addConfigurationProperties(Properties properties) {
@@ -142,38 +159,38 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 
         return answer;
     }
-    
+
     protected FullyQualifiedJavaType overrideDefaultType(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer = defaultType;
-        
+
         switch (column.getJdbcType()) {
-        case Types.BIT:
-            answer = calculateBitReplacement(column, defaultType);
-            break;
-        case Types.DECIMAL:
-        case Types.NUMERIC:
-            answer = calculateBigDecimalReplacement(column, defaultType);
-            break;
+            case Types.BIT:
+                answer = calculateBitReplacement(column, defaultType);
+                break;
+            case Types.DECIMAL:
+            case Types.NUMERIC:
+                answer = calculateBigDecimalReplacement(column, defaultType);
+                break;
         }
 
         return answer;
     }
-    
+
     protected FullyQualifiedJavaType calculateBitReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer;
-        
+
         if (column.getLength() > 1) {
             answer = new FullyQualifiedJavaType("byte[]"); //$NON-NLS-1$
         } else {
             answer = defaultType;
         }
-        
+
         return answer;
     }
-    
+
     protected FullyQualifiedJavaType calculateBigDecimalReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer;
-        
+
         if (column.getScale() > 0 || column.getLength() > 18 || forceBigDecimals) {
             answer = defaultType;
         } else if (column.getLength() > 9) {
@@ -183,7 +200,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
         } else {
             answer = new FullyQualifiedJavaType(Short.class.getName());
         }
-        
+
         return answer;
     }
 
@@ -205,6 +222,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 
     public void setContext(Context context) {
         this.context = context;
+        forceTinyClass();
     }
 
     public static class JdbcTypeInformation {
@@ -213,7 +231,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
         private FullyQualifiedJavaType fullyQualifiedJavaType;
 
         public JdbcTypeInformation(String jdbcTypeName,
-                FullyQualifiedJavaType fullyQualifiedJavaType) {
+                                   FullyQualifiedJavaType fullyQualifiedJavaType) {
             this.jdbcTypeName = jdbcTypeName;
             this.fullyQualifiedJavaType = fullyQualifiedJavaType;
         }
