@@ -16,8 +16,10 @@
 package org.mybatis.generator.codegen.mybatis3;
 
 import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.config.PropertyRegistry;
 
 import static org.mybatis.generator.internal.util.StringUtility.escapeStringForJava;
+import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 /**
@@ -57,14 +59,17 @@ public class MyBatis3FormattingUtilities {
      */
     public static String getParameterClause(
             IntrospectedColumn introspectedColumn, String prefix) {
+        String suppressJdbcType = introspectedColumn.getContext().getProperty(PropertyRegistry.GENERATE_JDBC_TYPE);
+
         StringBuilder sb = new StringBuilder();
 
         sb.append("#{"); //$NON-NLS-1$
         sb.append(introspectedColumn.getJavaProperty(prefix));
 
-
-//        sb.append(",jdbcType="); //$NON-NLS-1$
-//        sb.append(introspectedColumn.getJdbcTypeName());
+        if(isTrue(suppressJdbcType)){
+            sb.append(",jdbcType="); //$NON-NLS-1$
+            sb.append(introspectedColumn.getJdbcTypeName());
+        }
 
         if (stringHasValue(introspectedColumn.getTypeHandler())) {
             sb.append(",typeHandler="); //$NON-NLS-1$
