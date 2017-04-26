@@ -31,6 +31,8 @@
         <property name="generateBaseResultMap" value="false"/>
         <!-- 是否生成JdbcType 默认不生成 -->
         <property name="generateJdbcType" value="false"/>
+        <!-- 强制TINY为Integer -->
+        <property name="forceTiny2Int" value="true"/>
         <!-- 数据库表注释生成-->
         <commentGenerator>
             <property name="javaFileEncoding" value="UTF-8"/>
