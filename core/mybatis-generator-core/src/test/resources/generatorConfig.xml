@@ -29,10 +29,15 @@
         <property name="suppressTablePrefix" value="t_"/>
         <!-- 是否生成BaseResultMap 默认不生成 -->
         <property name="generateBaseResultMap" value="false"/>
-        <!-- 是否生成JdbcType 默认不生成 -->
+        <!-- 是否生成generateJdbcType 默认不生成 -->
         <property name="generateJdbcType" value="false"/>
         <!-- 强制TINY为Integer -->
         <property name="forceTiny2Int" value="true"/>
+        <!-- 忽略数据库操作时间(由数据库自行维护) -->
+        <property name="suppressColumnOptime" value="true"/>
+        <!-- LombokPlugin -->
+        <plugin type="org.mybatis.generator.plugins.LombokPlugin"/>
+
         <!-- 数据库表注释生成-->
         <commentGenerator>
             <property name="javaFileEncoding" value="UTF-8"/>

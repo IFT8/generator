@@ -17,6 +17,7 @@ package org.mybatis.generator.config;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.internal.util.StringUtility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,6 +138,13 @@ public class TableConfiguration extends PropertyHolder {
         deleteByExampleStatementEnabled = false;
         countByExampleStatementEnabled = false;
         updateByExampleStatementEnabled = false;
+
+        //忽略操作时间(由数据库自行维护)
+        String property = context.getProperties().getProperty(PropertyRegistry.SUPPRESS_COLUMN_OPTIME);
+        if (StringUtility.isTrue(property)) {
+            addIgnoredColumn(new IgnoredColumn("created_at"));
+            addIgnoredColumn(new IgnoredColumn("updated_at"));
+        }
     }
 
     /**
