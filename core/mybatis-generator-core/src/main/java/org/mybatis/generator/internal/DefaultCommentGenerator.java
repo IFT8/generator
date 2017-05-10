@@ -244,7 +244,9 @@ public class DefaultCommentGenerator implements CommentGenerator {
         // sb.append(introspectedColumn.getActualColumnName());
         // sb.append(')');
 
-        field.addJavaDocLine("//" + sb.toString()); //$NON-NLS-1$
+        field.addJavaDocLine("/**"); //$NON-NLS-1$
+        field.addJavaDocLine(" * " + sb.toString()); //$NON-NLS-1$
+        field.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
